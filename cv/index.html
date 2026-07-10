@@ -1,0 +1,1903 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ivan Banov — Frontend Engineer</title>
+    <meta
+      name="description"
+      content="Ivan Banov — Frontend Engineer. Design systems, UI architecture, and performance. 15+ years building the systems other engineers build on."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="fonts/fraunces-italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="fonts/newsreader-italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin />
+
+    <style>
+      /* ============================================================
+   Fonts (self-hosted, latin subset) — font-display: optional
+   prevents any flash of fallback→webfont swap
+   ============================================================ */
+      @font-face {
+        font-family: "Fraunces";
+        font-style: normal;
+        font-weight: 400 700;
+        font-display: optional;
+        src: url(fonts/fraunces.woff2) format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+          U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "Fraunces";
+        font-style: italic;
+        font-weight: 400 500;
+        font-display: optional;
+        src: url(fonts/fraunces-italic.woff2) format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+          U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        font-style: normal;
+        font-weight: 300 600;
+        font-display: optional;
+        src: url(fonts/newsreader.woff2) format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+          U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        font-style: italic;
+        font-weight: 400 500;
+        font-display: optional;
+        src: url(fonts/newsreader-italic.woff2) format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+          U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 400 500;
+        font-display: optional;
+        src: url(fonts/jetbrains-mono.woff2) format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+          U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
+      /* ============================================================
+   Tokens
+   ============================================================ */
+      :root {
+        color-scheme: light;
+        --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+        --font-body: "Newsreader", Georgia, serif;
+        --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+        --paper: #f2f6f8;
+        --paper-top: #ffffff;
+        --paper-2: #e6edf0;
+        --ink: #13181b;
+        --ink-soft: #3c464b;
+        --muted: #79838a;
+        --line: rgba(19, 24, 27, 0.12);
+        --line-soft: rgba(19, 24, 27, 0.06);
+        --accent: #0891b2;
+        --accent-2: #0e7490;
+        --glow: rgba(8, 145, 178, 0.08);
+        --selection: #a5f3fc;
+        --card: rgba(255, 255, 255, 0.55);
+        --shadow: 0 1px 2px rgba(19, 24, 27, 0.04), 0 12px 32px rgba(19, 24, 27, 0.07);
+
+        --maxw: 1040px;
+        --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --paper: #0f1315;
+        --paper-top: #1a2124;
+        --paper-2: #161b1e;
+        --ink: #eef2f3;
+        --ink-soft: #bfc7cb;
+        --muted: #7e888e;
+        --line: rgba(238, 242, 243, 0.14);
+        --line-soft: rgba(238, 242, 243, 0.07);
+        --accent: #22d3ee;
+        --accent-2: #67e8f9;
+        --glow: rgba(34, 211, 238, 0.12);
+        --selection: #67e8f9;
+        --card: rgba(255, 255, 255, 0.03);
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      body {
+        font-family: var(--font-body);
+        background: linear-gradient(180deg, var(--paper-top) 0, var(--paper) 760px);
+        background-color: var(--paper);
+        color: var(--ink);
+        font-size: 19px;
+        line-height: 1.65;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-optical-sizing: auto;
+        transition:
+          background 0.5s var(--ease),
+          color 0.5s var(--ease);
+        overflow-x: hidden;
+      }
+
+      /* subtle vignette so the paper feels lit */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: radial-gradient(120% 80% at 50% -10%, var(--glow), transparent 60%);
+      }
+
+      ::selection {
+        background: var(--selection);
+        color: #000;
+      }
+
+      a,
+      a:visited {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ============================================================
+   Reading progress + top nav
+   ============================================================ */
+      .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 0;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        z-index: 100;
+        transition: width 0.1s linear;
+      }
+
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 90;
+        padding: 11px 0;
+        background: color-mix(in srgb, var(--paper) 82%, transparent);
+        backdrop-filter: saturate(140%) blur(14px);
+        -webkit-backdrop-filter: saturate(140%) blur(14px);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar__inner {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .topbar__nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(14px, 3vw, 34px);
+      }
+      .topbar__actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: auto;
+      }
+      .topbar__nav a {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--muted);
+        transition: color 0.25s var(--ease);
+        position: relative;
+      }
+      .topbar__nav a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+        height: 1px;
+        background: var(--accent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s var(--ease);
+      }
+      .topbar__nav a:hover,
+      .topbar__nav a.active {
+        color: var(--ink);
+      }
+      .topbar__nav a.active::after {
+        transform: scaleX(1);
+      }
+      @media (max-width: 680px) {
+        .topbar__nav {
+          display: none;
+        }
+      }
+
+      /* theme + print buttons */
+      .iconbtn {
+        display: inline-grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 0.3s var(--ease);
+      }
+      .iconbtn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: rotate(-12deg);
+      }
+      .iconbtn svg {
+        width: 16px;
+        height: 16px;
+      }
+      .iconbtn .moon {
+        display: none;
+      }
+      html[data-theme="dark"] .iconbtn .sun {
+        display: none;
+      }
+      html[data-theme="dark"] .iconbtn .moon {
+        display: block;
+      }
+
+      /* ============================================================
+   Layout shell
+   ============================================================ */
+      .wrap {
+        position: relative;
+        z-index: 1;
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 clamp(22px, 6vw, 40px);
+      }
+
+      section {
+        padding: clamp(40px, 6vw, 76px) 0;
+      }
+
+      /* ============================================================
+   Hero
+   ============================================================ */
+      .hero {
+        padding-top: clamp(72px, 12vh, 128px);
+        padding-bottom: clamp(24px, 4vw, 44px);
+      }
+
+      .hero__eyebrow {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 26px;
+      }
+      .hero__eyebrow::before {
+        content: "";
+        width: 34px;
+        height: 1px;
+        background: var(--accent);
+        display: inline-block;
+      }
+
+      .hero__name {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: clamp(3rem, 11vw, 6rem);
+        line-height: 1;
+        letter-spacing: -0.02em;
+        margin-bottom: 22px;
+      }
+
+      .hero__role {
+        font-family: var(--font-body);
+        font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+        font-weight: 500;
+        color: var(--ink-soft);
+        margin-bottom: 4px;
+      }
+      .hero__role b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .hero__tags {
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 34px;
+      }
+
+      .hero__lede {
+        font-size: clamp(1.12rem, 2vw, 1.32rem);
+        line-height: 1.62;
+        color: var(--ink-soft);
+        max-width: 66ch;
+        font-weight: 400;
+        margin-bottom: 40px;
+      }
+      .hero__lede em {
+        font-style: italic;
+        color: var(--ink);
+      }
+
+      .hero__contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 12px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14.5px;
+        color: var(--ink-soft);
+        padding: 8px 15px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--card);
+        transition: all 0.28s var(--ease);
+      }
+      .chip svg {
+        width: 14px;
+        height: 14px;
+        color: var(--muted);
+        transition: color 0.28s var(--ease);
+      }
+      a.chip:hover {
+        border-color: var(--accent);
+        color: var(--ink);
+        transform: translateY(-2px);
+      }
+      a.chip:hover svg {
+        color: var(--accent);
+      }
+
+      /* ============================================================
+   Section headers
+   ============================================================ */
+      .sec-head {
+        display: flex;
+        align-items: baseline;
+        gap: 18px;
+        margin-bottom: clamp(26px, 4vw, 44px);
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .sec-num {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        font-weight: 500;
+        padding-top: 6px;
+      }
+      .sec-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.9rem, 5vw, 2.9rem);
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+
+      /* donkey wiggle (the one allowed motion) + dunky links */
+      .entry__role .donkey {
+        font-size: 0.9em;
+        display: inline-block;
+      }
+      .entry:hover .donkey {
+        animation: wiggle 0.6s var(--ease);
+      }
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(0);
+        }
+        25% {
+          transform: rotate(-13deg);
+        }
+        75% {
+          transform: rotate(13deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .entry:hover .donkey {
+          animation: none;
+        }
+      }
+      .entry__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 20px;
+        margin-top: 18px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.04em;
+      }
+      .entry__links a {
+        color: var(--ink-soft);
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 2px;
+      }
+      .entry__links a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      /* ============================================================
+   Timeline / experience
+   ============================================================ */
+      .timeline {
+        position: relative;
+      }
+
+      .entry {
+        position: relative;
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        column-gap: clamp(18px, 3vw, 30px);
+        padding-bottom: clamp(30px, 4vw, 48px);
+      }
+      .entry:last-child {
+        padding-bottom: 0;
+      }
+
+      .entry__rail {
+        position: relative;
+      }
+      .entry__rail::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 6px;
+        bottom: -6px;
+        width: 1.5px;
+        background: var(--line);
+      }
+      .entry:last-child .entry__rail::before {
+        background: var(--line);
+      }
+      .dot {
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: var(--paper);
+        border: 1.5px solid var(--muted);
+        transition: all 0.3s var(--ease);
+      }
+      .entry.is-lead .dot {
+        border-color: var(--accent);
+        background: var(--accent);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+      }
+      .entry:hover .dot {
+        border-color: var(--accent);
+        transform: scale(1.25);
+      }
+
+      .entry__meta {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        margin-bottom: 12px;
+      }
+      .entry__meta .dur {
+        color: var(--accent);
+      }
+      .entry__role {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+        line-height: 1.12;
+        letter-spacing: -0.015em;
+        margin-bottom: 4px;
+      }
+      .entry__company {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
+      .entry__company b {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .entry__lede {
+        color: var(--ink-soft);
+        font-size: 1.06rem;
+        margin-bottom: 20px;
+        max-width: 62ch;
+      }
+
+      .points {
+        list-style: none;
+        display: grid;
+        gap: 13px;
+      }
+      .points li {
+        position: relative;
+        padding-left: 26px;
+        max-width: 66ch;
+        color: var(--ink-soft);
+        font-size: 1.005rem;
+        line-height: 1.6;
+      }
+      .points li::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: transparent;
+        border: 1.5px solid var(--accent);
+      }
+      .points li strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .points li em {
+        font-style: italic;
+        color: var(--ink);
+      }
+
+      /* "new / to refine" marker for the Miro draft points */
+      .tag-draft {
+        font-family: var(--font-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+        border-radius: 4px;
+        padding: 1px 5px;
+        margin-left: 8px;
+        vertical-align: 2px;
+        white-space: nowrap;
+      }
+
+      /* earlier roles: compact, expandable */
+      .earlier-head {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 8px 0 28px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .earlier-head::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--line-soft);
+      }
+      .earlier-print {
+        display: none;
+      }
+
+      details.mini {
+        border-top: 1px solid var(--line-soft);
+      }
+      details.mini:last-of-type {
+        border-bottom: none;
+      }
+      details.mini:first-of-type {
+        border-top: none;
+      }
+      details.mini summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 18px 4px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: baseline;
+        gap: 12px;
+        transition: color 0.25s var(--ease);
+      }
+      details.mini summary::-webkit-details-marker {
+        display: none;
+      }
+      .mini__l {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 6px 12px;
+      }
+      .mini__role {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 1.12rem;
+      }
+      .mini__co {
+        color: var(--ink-soft);
+        font-size: 0.98rem;
+      }
+      .mini__co b {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .mini__date {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .mini__chev {
+        width: 13px;
+        height: 13px;
+        color: var(--muted);
+        transition: transform 0.3s var(--ease);
+      }
+      details.mini[open] .mini__chev {
+        transform: rotate(180deg);
+        color: var(--accent);
+      }
+      details.mini summary:hover .mini__role {
+        color: var(--accent);
+      }
+      .mini__body {
+        padding: 0 4px 22px;
+      }
+      .mini__body .points li {
+        font-size: 0.97rem;
+      }
+
+      /* ============================================================
+   Expertise
+   ============================================================ */
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(30px, 5vw, 48px);
+      }
+      @media (max-width: 620px) {
+        .skills {
+          grid-template-columns: 1fr;
+        }
+      }
+      .skillgroup h3 {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 500;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .taglist {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        font-size: 14.5px;
+        color: var(--ink-soft);
+        padding: 6px 13px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--card);
+        transition: all 0.25s var(--ease);
+        cursor: default;
+      }
+      .tag:hover {
+        border-color: var(--accent);
+        color: var(--ink);
+        transform: translateY(-2px);
+      }
+
+      /* ============================================================
+   Talks + education
+   ============================================================ */
+      .talks {
+        display: grid;
+        gap: 2px;
+      }
+      .talk {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: baseline;
+        gap: 16px;
+        padding: 20px 4px;
+        border-top: 1px solid var(--line-soft);
+        transition: padding-left 0.3s var(--ease);
+      }
+      .talk:last-child {
+        border-bottom: none;
+      }
+      .talk:first-child {
+        border-top: none;
+      }
+      .talk:hover {
+        padding-left: 12px;
+      }
+      .talk__title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.22rem;
+      }
+      .talk__title .arrow {
+        color: var(--accent);
+        opacity: 0;
+        margin-left: 8px;
+        transition: opacity 0.25s var(--ease);
+      }
+      .talk:hover .talk__title .arrow {
+        opacity: 1;
+      }
+      .talk__desc {
+        color: var(--muted);
+        font-size: 0.96rem;
+        margin-top: 3px;
+      }
+      .talk__year {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+      }
+
+      .foot-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(30px, 5vw, 54px);
+        margin-top: clamp(48px, 7vw, 76px);
+        padding-top: 40px;
+        border-top: 1px solid var(--line);
+      }
+      @media (max-width: 620px) {
+        .foot-grid {
+          grid-template-columns: 1fr;
+          gap: 34px;
+        }
+      }
+      .foot-grid h3 {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 14px;
+      }
+      .foot-grid .row {
+        margin-bottom: 12px;
+      }
+      .foot-grid .k {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.1rem;
+      }
+      .foot-grid .v {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .foot-grid .lang {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      /* ============================================================
+   Closing / footer
+   ============================================================ */
+      .closing {
+        text-align: center;
+        padding: clamp(70px, 12vw, 130px) 0 clamp(50px, 8vw, 90px);
+      }
+      .closing__big {
+        font-family: var(--font-body);
+        font-weight: 400;
+        font-style: italic;
+        font-size: clamp(1.9rem, 5.5vw, 3.5rem);
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        max-width: 22ch;
+        margin: 0 auto 34px;
+      }
+      .closing__big b {
+        font-style: normal;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 15px 28px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: var(--paper);
+        transition: all 0.3s var(--ease);
+      }
+      .cta:hover {
+        background: var(--accent);
+        color: #14181b;
+        box-shadow: var(--shadow);
+      }
+      .copyright {
+        margin-top: 60px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      /* ============================================================
+   Reveal animation
+   ============================================================ */
+      /* reveal animations removed per request */
+
+      /* ============================================================
+   Print — clean single-column PDF
+   ============================================================ */
+      @media print {
+        :root,
+        html[data-theme="dark"] {
+          color-scheme: light;
+          --paper: #fff;
+          --paper-top: #fff;
+          --paper-2: #f2f2f2;
+          --ink: #000;
+          --ink-soft: #222;
+          --muted: #555;
+          --line: #ccc;
+          --line-soft: #e5e5e5;
+          --accent: #155e75;
+          --accent-2: #164e63;
+          --glow: transparent;
+          --selection: #a5f3fc;
+          --card: transparent;
+          --shadow: none;
+        }
+        @page {
+          margin: 12mm;
+        }
+        body {
+          font-size: 9.4pt;
+          line-height: 1.5;
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        .progress,
+        .topbar,
+        .hero__eyebrow::before,
+        body::before {
+          display: none !important;
+        }
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        .wrap {
+          padding: 0;
+        }
+        /* separation lives on the bottom as MARGIN (not padding): a trailing
+           margin adjacent to a page break is dropped by the browser, so a
+           section that lands first on a printed page has no leading gap —
+           padding would instead spill onto the top of the next page */
+        section {
+          padding: 0 !important;
+          margin: 0 0 52px !important;
+        }
+        #dunky {
+          padding: 0 !important;
+          margin: 0 0 52px !important;
+        }
+        .hero {
+          padding: 0 !important;
+          margin: 0 0 40px !important;
+        }
+        .hero__eyebrow {
+          margin-bottom: 9px;
+          font-size: 7pt;
+        }
+        .hero__name {
+          font-size: 23pt;
+          margin-bottom: 9px;
+        }
+        .hero__role {
+          font-size: 10.5pt;
+        }
+        .hero__tags {
+          font-size: 6.8pt;
+          margin-bottom: 14px;
+        }
+        .hero__lede {
+          font-size: 9.6pt;
+          line-height: 1.55;
+          max-width: none;
+          margin-bottom: 16px;
+        }
+        .hero__contact {
+          gap: 5px 20px;
+          margin-bottom: 0;
+        }
+        .chip {
+          border: none;
+          background: none;
+          padding: 0;
+          border-radius: 0;
+          font-size: 8.8pt;
+        }
+        .chip svg {
+          width: 11px;
+          height: 11px;
+        }
+        .sec-head {
+          margin-bottom: 18px;
+          padding-bottom: 10px;
+          break-after: avoid;
+        }
+        .sec-title {
+          font-size: 14pt;
+        }
+        .sec-num {
+          font-size: 7.5pt;
+          padding-top: 3px;
+        }
+        .entry__links {
+          display: none;
+        }
+        .entry {
+          padding-bottom: 26px;
+          break-inside: auto;
+          grid-template-columns: 1fr;
+        }
+        /* keep the heading cluster with the first bullet; never split a bullet */
+        .entry__meta,
+        .entry__role,
+        .entry__company {
+          break-after: avoid;
+        }
+        .entry__lede {
+          break-inside: avoid;
+        }
+        .entry__rail {
+          display: none;
+        }
+        .entry__meta {
+          font-size: 7.4pt;
+          margin-bottom: 6px;
+        }
+        .entry__role {
+          font-size: 12pt;
+        }
+        .entry__company {
+          font-size: 9.4pt;
+          margin-bottom: 10px;
+        }
+        .entry__lede {
+          font-size: 9.4pt;
+          line-height: 1.5;
+          margin-bottom: 11px;
+          max-width: none;
+        }
+        .points {
+          gap: 8px;
+        }
+        .points li {
+          font-size: 9.2pt;
+          line-height: 1.44;
+          padding-left: 16px;
+          max-width: none;
+          break-inside: avoid;
+        }
+        .points li::before {
+          top: 6px;
+          left: 5px;
+          width: 3px;
+          height: 3px;
+          border: none;
+          background: var(--accent);
+        }
+        .earlier-head {
+          margin: 8px 0 14px;
+        }
+        details.mini {
+          display: none;
+        }
+        .earlier-print {
+          display: block;
+          font-size: 9.2pt;
+          line-height: 1.5;
+          color: var(--ink-soft);
+          max-width: none;
+        }
+        .talk {
+          break-inside: avoid;
+        }
+        details.mini summary {
+          padding: 7px 2px;
+        }
+        details.mini .mini__body {
+          display: block !important;
+          padding: 0 2px 10px;
+        }
+        .mini__role {
+          font-size: 10pt;
+        }
+        .mini__co,
+        .mini__date {
+          font-size: 8.4pt;
+        }
+        .mini__chev {
+          display: none;
+        }
+        .talk {
+          padding: 9px 2px;
+        }
+        .talk:last-child {
+          border-bottom: none;
+        }
+        .talk__title {
+          font-size: 10.5pt;
+        }
+        .talk__desc {
+          font-size: 8.6pt;
+        }
+        .talk__year {
+          font-size: 8.4pt;
+        }
+        .foot-grid {
+          margin-top: 22px;
+          padding-top: 16px;
+          gap: 24px;
+        }
+        .foot-grid .k {
+          font-size: 10pt;
+        }
+        .foot-grid .v {
+          font-size: 8.6pt;
+        }
+        .tag {
+          border: none;
+          background: none;
+          padding: 0;
+          border-radius: 0;
+          font-size: 9pt;
+        }
+        .taglist,
+        .lang {
+          gap: 3px 6px;
+        }
+        .taglist .tag + .tag::before,
+        .lang .tag + .tag::before {
+          content: "·";
+          color: var(--muted);
+          margin-right: 4px;
+        }
+        .closing {
+          display: none !important;
+        }
+        a[href]::after {
+          content: "";
+        }
+        .tag-draft {
+          display: none;
+        }
+      }
+
+      /* ---- motion disabled by request (only the donkey wiggles) ---- */
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+      .iconbtn:hover,
+      a.chip:hover,
+      .entry:hover .dot,
+      .tag:hover,
+      .cta:hover {
+        transform: none !important;
+      }
+      .talk:hover {
+        padding-left: 4px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress" id="progress"></div>
+
+    <!-- sticky top bar -->
+    <header class="topbar" id="topbar">
+      <div class="topbar__inner wrap">
+        <nav class="topbar__nav">
+          <a href="#dunky">Open Source</a>
+          <a href="#experience">Experience</a>
+          <a href="#expertise">Expertise</a>
+          <a href="#speaking">Speaking</a>
+        </nav>
+        <div class="topbar__actions">
+          <button class="iconbtn" id="print" title="Save as PDF" aria-label="Save as PDF">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z" />
+            </svg>
+          </button>
+          <button class="iconbtn" id="theme" title="Toggle theme" aria-label="Toggle theme">
+            <svg
+              class="sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="12" r="4.2" />
+              <path
+                d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"
+              />
+            </svg>
+            <svg
+              class="moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap" id="top">
+      <!-- ===================== HERO ===================== -->
+      <section class="hero" id="hero">
+        <p class="hero__eyebrow reveal">Brazilian · Based in Berlin, Germany</p>
+        <h1 class="hero__name reveal">Ivan Banov</h1>
+        <p class="hero__role reveal">
+          <b>Frontend Engineer</b> — Design Systems &amp; UI Architecture
+        </p>
+        <p class="hero__tags reveal">
+          TypeScript · Style Engines · DX Tooling · Performance · A11y · Technical Leadership
+        </p>
+
+        <p class="hero__lede reveal">
+          I build the systems other engineers build on. Over <em>15+ years</em> I've turned
+          fragmented UI into coherent, high-performance design systems and frontend platforms,
+          working where design intent, render, and developer experience meet.
+        </p>
+
+        <div class="hero__contact reveal">
+          <a class="chip" href="mailto:hi@ivanbanov.dev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3 7 9 6 9-6" />
+            </svg>
+            hi@ivanbanov.dev
+          </a>
+          <a class="chip" href="tel:+4915208133683">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path
+                d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"
+              />
+            </svg>
+            +49 1520 8133683
+          </a>
+          <a class="chip" href="https://linkedin.com/in/ivanbanov/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.7-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.4H3.5V9h3.6v11.4zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.5c0 1 .8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-.9-.8-1.7-1.8-1.7z"
+              />
+            </svg>
+            /in/ivanbanov
+          </a>
+        </div>
+      </section>
+
+      <!-- ===================== SPOTLIGHT: dunky.dev ===================== -->
+      <!-- ===================== 00 · Open Source (dunky.dev) ===================== -->
+      <section id="dunky">
+        <header class="sec-head reveal">
+          <span class="sec-num">00</span>
+          <h2 class="sec-title">Open Source</h2>
+        </header>
+
+        <div class="timeline">
+          <article class="entry is-lead reveal">
+            <div class="entry__rail"><span class="dot"></span></div>
+            <div class="entry__body">
+              <div class="entry__meta">
+                <span>2026 — Present</span><span class="dur">Open source</span>
+              </div>
+              <h3 class="entry__role">dunky.dev <span class="donkey">🫏</span></h3>
+              <div class="entry__company"><b>DX tools that unlock powerful UIs</b></div>
+              <p class="entry__lede">
+                A framework-agnostic foundation for design systems that solves the
+                <em>wiring problem</em>: behavior and styles scattered across framework-specific
+                code, forcing costly rewrites per platform.
+              </p>
+              <ul class="points">
+                <li>
+                  <strong>State Machine.</strong> Framework-agnostic behavior, described once.
+                  <em>Available.</em>
+                </li>
+                <li>
+                  <strong>Style Engine.</strong> Portable style schemas, resolved for performance.
+                  <em>Coming soon.</em>
+                </li>
+                <li>
+                  <strong>Components.</strong> Agnostic render layer over behavior and styles.
+                  <em>Coming soon.</em>
+                </li>
+              </ul>
+              <p class="entry__links">
+                <a href="https://dunky.dev/blog/dunky-the-journey" target="_blank" rel="noopener"
+                  >Read — Dunky: The Journey ↗</a
+                >
+                <a href="https://dunky.dev" target="_blank" rel="noopener">dunky.dev ↗</a>
+                <a href="https://github.com/dunky-dev" target="_blank" rel="noopener">GitHub ↗</a>
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================== EXPERIENCE ===================== -->
+      <section id="experience">
+        <header class="sec-head reveal">
+          <span class="sec-num">01</span>
+          <h2 class="sec-title">Experience</h2>
+        </header>
+
+        <div class="timeline">
+          <!-- MIRO -->
+          <article class="entry is-lead reveal">
+            <div class="entry__rail"><span class="dot"></span></div>
+            <div class="entry__body">
+              <div class="entry__meta">
+                <span>Oct 2021 — Present</span><span class="dur">Berlin</span>
+              </div>
+              <h3 class="entry__role">Tech Lead — Design System</h3>
+              <div class="entry__company"><b>Miro</b> · Design System Team</div>
+              <p class="entry__lede">
+                I lead the architecture and evolution of Miro's design system, the shared UI
+                foundation powering web, native and canvas.
+              </p>
+              <ul class="points">
+                <li>
+                  <strong>Styling architecture across surfaces.</strong> Designed and built the
+                  design system's styling library into a unified style layer to serve both DOM and
+                  canvas — aligned across the performance team, the canvas engine (Miro's in-house
+                  JSX-like renderer), and web. A full build-time style extractor compiles authored
+                  styles to static CSS, removing runtime cost and meeting the performance budget of
+                  the canvas's hottest paths.
+                </li>
+                <li>
+                  <strong>Component architecture &amp; Radix adoption.</strong> Contributed to
+                  building the design system's component library and pioneered the adoption of Radix
+                  UI — wrapping primitives, defining the distribution strategy, and establishing how
+                  teams consume and extend components. The approach closely mirrored what shadcn/ui
+                  would later popularise, long before it existed.
+                </li>
+                <li>
+                  <strong>Accessibility partnership.</strong> Worked closely with the a11y team to
+                  cover their full spectrum of needs — from keyboard navigation and ARIA semantics
+                  to screen-reader edge cases. Iterating against non-obvious behaviors that
+                  sharpened both the components and my understanding of real-world
+                  assistive-technology constraints.
+                </li>
+                <li>
+                  <strong>Figma to code.</strong> Led the effort to organize and automate the icon
+                  library pipeline from Figma to code, and the design token distribution from Figma
+                  through DS packages — keeping design and code continuously in sync across
+                  consumers.
+                </li>
+                <li>
+                  <strong>AI-ready design system.</strong> Drove the move to an AI-ready pipeline
+                  where a single source flows packages to docs and MCP
+                </li>
+                <li>
+                  <strong>Architecture &amp; platform migration.</strong> Stays current with the
+                  industry to keep the system on the right tools at the right time — adopted
+                  Stitches when the design system needed fast adoption and first-class design-token
+                  support, then architected the move away from it after deprecation, ensuring
+                  long-term maintainability without disruption.
+                </li>
+
+                <li>
+                  <strong>Footprint reduction &amp; governance.</strong> Researched and identified
+                  an ~83% reduction opportunity in Miro's CSS bundle size — formed and led a
+                  cross-team initiative to close that gap, handing the design system full styling
+                  control over the app, enforced with CSS handlers that block ad-hoc overrides of
+                  components and keep the UI consistent everywhere.
+                </li>
+                <li>
+                  <strong>Automation.</strong> Built visual-regression automation to catch UI drift
+                  before release, and automated the icon pipeline end-to-end from Figma to code.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- COBALT -->
+          <article class="entry reveal">
+            <div class="entry__rail"><span class="dot"></span></div>
+            <div class="entry__body">
+              <div class="entry__meta">
+                <span>Aug 2019 — Oct 2021</span><span class="dur">Berlin</span>
+              </div>
+              <h3 class="entry__role">Staff Software Engineer</h3>
+              <div class="entry__company"><b>Cobalt.io</b> · Frontend Chapter Lead</div>
+              <p class="entry__lede">
+                Led the frontend chapter across four teams, setting technical direction from data
+                fetching through to UI rendering for Cobalt's pentest-as-a-service platform.
+              </p>
+              <ul class="points">
+                <li>
+                  <strong>Modular design system.</strong> Built and scaled a modular design system
+                  that let four teams ship consistent UI independently and in parallel.
+                </li>
+                <li>
+                  <strong>Ownership model.</strong> Defined ownership boundaries and interfaces
+                  between frontend teams, removing overlap and unblocking parallel delivery.
+                </li>
+                <li>
+                  <strong>Visual-regression testing.</strong> Introduced a Jest + Puppeteer pipeline
+                  for automated UI validation, cutting regressions reaching production.
+                </li>
+                <li>
+                  <strong>Design-system-driven PDF.</strong> Architected a PDF-generation service
+                  via API that reused the design system, keeping print and web visually coherent
+                  from a single source.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- SAUCE LABS -->
+          <article class="entry reveal">
+            <div class="entry__rail"><span class="dot"></span></div>
+            <div class="entry__body">
+              <div class="entry__meta">
+                <span>Jan 2019 — Jul 2019</span><span class="dur">Berlin</span>
+              </div>
+              <h3 class="entry__role">Senior Software Engineer</h3>
+              <div class="entry__company"><b>Sauce Labs</b></div>
+              <p class="entry__lede">
+                Owned the frontend integration between Sauce Labs' real-device cloud and the testing
+                services from the acquired TestObject.
+              </p>
+              <ul class="points">
+                <li>
+                  <strong>Real-device cloud migration.</strong> Helped migrate legacy
+                  real-device-cloud infrastructure to a modern, scalable platform.
+                </li>
+                <li>
+                  <strong>Integration architecture.</strong> Drove frontend optimizations that
+                  smoothed the integration between devices and testing environments.
+                </li>
+                <li>
+                  <strong>SDK automation &amp; state layer.</strong> Designed an SDK-automation
+                  process from Swagger definitions and built the state layer that synchronized
+                  microservice data with the frontend — streamlining API consumption and
+                  maintainability.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- GETSURANCE (relayr folded in) -->
+          <article class="entry reveal">
+            <div class="entry__rail"><span class="dot"></span></div>
+            <div class="entry__body">
+              <div class="entry__meta">
+                <span>Jun 2017 — Dec 2018</span><span class="dur">Berlin</span>
+              </div>
+              <h3 class="entry__role">Senior Frontend Engineer</h3>
+              <div class="entry__company"><b>Getsurance</b></div>
+              <p class="entry__lede">
+                Built Getsurance's frontend from the ground up in <em>Elm</em> — a type-safe,
+                crash-free foundation for a regulated insurance product — and the automation around
+                it.
+              </p>
+              <ul class="points">
+                <li>
+                  <strong>Component library from scratch.</strong> Created a fully reusable UI
+                  component system that let the team ship new features with minimal effort.
+                </li>
+                <li>
+                  <strong>Email infrastructure.</strong> Developed a responsive transactional-email
+                  system (Inky &amp; Panini) for consistent branding across communications.
+                </li>
+                <li>
+                  <strong>Headless CMS.</strong> Integrated a static-site generator with a headless
+                  CMS for efficient content management.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- earlier -->
+          <p class="earlier-head reveal">Earlier</p>
+
+          <p class="earlier-print">
+            Across Loggi, Creditas, Dafiti, UOL, and Think4 (2010–2017, São Paulo → Berlin), I grew
+            from building brand storefronts and high-conversion checkouts into shared component
+            libraries and app architecture — React, Redux, Ember.js, and React Native —
+            standardizing frontend practices and shipping the products and internal systems that
+            scaled each company.
+          </p>
+
+          <details class="mini reveal">
+            <summary>
+              <div class="mini__l">
+                <span class="mini__role">Senior Frontend Engineer</span>
+                <span class="mini__co">· <b>Loggi</b>, São Paulo</span>
+              </div>
+              <span class="mini__date"
+                >Jun 2016 — May 2017
+                <svg
+                  class="mini__chev"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mini__body">
+              <ul class="points">
+                <li>
+                  Scaled Loggi's frontend infrastructure across multiple repositories during
+                  hypergrowth.
+                </li>
+                <li>Built shared React + Redux libraries that made UI reusable across teams.</li>
+                <li>
+                  Shipped mobile apps in React Native, extending Loggi's reach to new surfaces.
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="mini reveal">
+            <summary>
+              <div class="mini__l">
+                <span class="mini__role">Senior Frontend Engineer</span>
+                <span class="mini__co">· <b>Creditas</b>, São Paulo</span>
+              </div>
+              <span class="mini__date"
+                >Jun 2014 — May 2016
+                <svg
+                  class="mini__chev"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mini__body">
+              <ul class="points">
+                <li>Delivered and maintained multiple production web apps in Ember.js.</li>
+                <li>
+                  Designed and launched Creditas' first internal middle-office system, optimizing
+                  loan-processing workflows.
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="mini reveal">
+            <summary>
+              <div class="mini__l">
+                <span class="mini__role">Frontend Engineer</span>
+                <span class="mini__co">· <b>Dafiti</b>, São Paulo</span>
+              </div>
+              <span class="mini__date"
+                >Jun 2013 — May 2014
+                <svg
+                  class="mini__chev"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mini__body">
+              <ul class="points">
+                <li>
+                  Owned the checkout experience for one of Latin America's largest fashion
+                  retailers, optimizing for performance and conversion.
+                </li>
+                <li>Refactored legacy scripts and optimized assets to minimize load time.</li>
+                <li>
+                  Built a Gulp automation pipeline that cut build times and streamlined deploys.
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="mini reveal">
+            <summary>
+              <div class="mini__l">
+                <span class="mini__role">Frontend Engineer</span>
+                <span class="mini__co">· <b>UOL</b>, São Paulo</span>
+              </div>
+              <span class="mini__date"
+                >Feb 2012 — Feb 2013
+                <svg
+                  class="mini__chev"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mini__body">
+              <ul class="points">
+                <li>
+                  Contributed to standardizing frontend practices across one of Brazil's largest web
+                  portals.
+                </li>
+                <li>Led efforts to unify design and code standards across projects.</li>
+                <li>Built and maintained reusable modules and frontend libraries.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="mini reveal">
+            <summary>
+              <div class="mini__l">
+                <span class="mini__role">Frontend Engineer</span>
+                <span class="mini__co">· <b>Think4</b>, São Paulo</span>
+              </div>
+              <span class="mini__date"
+                >Feb 2010 — Jan 2012
+                <svg
+                  class="mini__chev"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mini__body">
+              <ul class="points">
+                <li>Delivered frontend for high-profile brand campaigns and storefronts.</li>
+                <li>Built store-within-a-store pages for clients like Nike and Red Bull.</li>
+                <li>Partnered closely with designers to validate layouts before development.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ===================== EXPERTISE ===================== -->
+      <section id="expertise">
+        <header class="sec-head reveal">
+          <span class="sec-num">02</span>
+          <h2 class="sec-title">Expertise</h2>
+        </header>
+
+        <div class="skills">
+          <div class="skillgroup reveal">
+            <h3>Architecture &amp; Leadership</h3>
+            <div class="taglist">
+              <span class="tag">Design systems</span>
+              <span class="tag">Frontend architecture</span>
+              <span class="tag">Technical leadership</span>
+              <span class="tag">Cross-team alignment</span>
+              <span class="tag">Platform migrations</span>
+              <span class="tag">API &amp; contract design</span>
+            </div>
+          </div>
+          <div class="skillgroup reveal">
+            <h3>Performance</h3>
+            <div class="taglist">
+              <span class="tag">CSS optimization</span>
+              <span class="tag">Build-time extraction</span>
+              <span class="tag">Visual regression</span>
+            </div>
+          </div>
+          <div class="skillgroup reveal">
+            <h3>Languages &amp; Frameworks</h3>
+            <div class="taglist">
+              <span class="tag">TypeScript</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Elm</span>
+              <span class="tag">React</span>
+              <span class="tag">React Native</span>
+              <span class="tag">Redux</span>
+              <span class="tag">CSS</span>
+            </div>
+          </div>
+          <div class="skillgroup reveal">
+            <h3>Systems &amp; Tooling</h3>
+            <div class="taglist">
+              <span class="tag">Style Engines</span>
+              <span class="tag">Design tokens</span>
+              <span class="tag">MCP / AI-ready docs</span>
+              <span class="tag">Icon pipelines</span>
+              <span class="tag">Component libraries</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== SPEAKING ===================== -->
+      <section id="speaking">
+        <header class="sec-head reveal">
+          <span class="sec-num">03</span>
+          <h2 class="sec-title">Speaking</h2>
+        </header>
+
+        <div class="talks">
+          <div class="talk reveal">
+            <div>
+              <div class="talk__title">Making Sense of CSS-in-JS</div>
+              <div class="talk__desc">
+                Why the ecosystem reached for it, how it actually works under the hood, and the
+                runtime vs. zero-runtime trade-offs — a practical playbook for doing it right
+              </div>
+            </div>
+            <div class="talk__year">Jun 2024</div>
+          </div>
+          <a
+            class="talk reveal"
+            href="https://miro.com/app/board/uXjVKOyiB4g=/"
+            target="_blank"
+            rel="noopener"
+          >
+            <div>
+              <div class="talk__title">Packing a Design System<span class="arrow">↗</span></div>
+              <div class="talk__desc">On architecting and shipping a design system at scale</div>
+            </div>
+            <div class="talk__year">May 2024</div>
+          </a>
+          <a
+            class="talk reveal"
+            href="https://speakerdeck.com/ivanbanov/xss"
+            target="_blank"
+            rel="noopener"
+          >
+            <div>
+              <div class="talk__title">
+                XSS — What It Is &amp; How Attacks Work<span class="arrow">↗</span>
+              </div>
+              <div class="talk__desc">A practical look at cross-site scripting</div>
+            </div>
+            <div class="talk__year">Mar 2017</div>
+          </a>
+          <a
+            class="talk reveal"
+            href="https://speakerdeck.com/ivanbanov/style-guide-concepts"
+            target="_blank"
+            rel="noopener"
+          >
+            <div>
+              <div class="talk__title">Styleguide Concepts<span class="arrow">↗</span></div>
+              <div class="talk__desc">From styleguide to a framework in code</div>
+            </div>
+            <div class="talk__year">Jul 2016</div>
+          </a>
+        </div>
+
+        <div class="foot-grid">
+          <div class="reveal">
+            <h3>Education</h3>
+            <div class="row">
+              <div class="k">FIAP — São Paulo</div>
+              <div class="v">Internet Systems, Associate Degree · 2015–2016</div>
+            </div>
+          </div>
+          <div class="reveal">
+            <h3>Languages</h3>
+            <div class="lang">
+              <span class="tag">🇧🇷 Portuguese</span>
+              <span class="tag">🇪🇸 Spanish</span>
+              <span class="tag">🇬🇧 English</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CLOSING ===================== -->
+      <section class="closing">
+        <p class="closing__big reveal">Let's build the <b>foundation</b> your product ships on.</p>
+        <a class="cta reveal" href="mailto:hi@ivanbanov.dev">
+          Get in touch
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+        <div class="copyright reveal">Ivan Banov · Berlin · hi@ivanbanov.dev</div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+
+        /* ---- theme ---- */
+        var saved = null;
+        try {
+          saved = localStorage.getItem("cv-theme");
+        } catch (e) {}
+        if (saved) {
+          root.setAttribute("data-theme", saved);
+        } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          root.setAttribute("data-theme", "dark");
+        }
+        document.getElementById("theme").addEventListener("click", function () {
+          var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          root.setAttribute("data-theme", next);
+          try {
+            localStorage.setItem("cv-theme", next);
+          } catch (e) {}
+        });
+
+        /* ---- print ---- */
+        document.getElementById("print").addEventListener("click", function () {
+          window.print();
+        });
+        window.addEventListener("beforeprint", function () {
+          document.querySelectorAll("details.mini").forEach(function (d) {
+            d.open = true;
+          });
+        });
+
+        /* ---- progress bar + topbar ---- */
+        var progress = document.getElementById("progress");
+        var topbar = document.getElementById("topbar");
+        var hero = document.getElementById("hero");
+        function onScroll() {
+          var h = document.documentElement;
+          var max = h.scrollHeight - h.clientHeight;
+          progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+          topbar.classList.toggle("show", h.scrollTop > hero.offsetHeight * 0.6);
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        /* ---- reveal on scroll ---- */
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if ("IntersectionObserver" in window && !reduce) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  e.target.classList.add("in");
+                  io.unobserve(e.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+          );
+          document.querySelectorAll(".reveal").forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          document.querySelectorAll(".reveal").forEach(function (el) {
+            el.classList.add("in");
+          });
+        }
+
+        /* ---- active nav link ---- */
+        var links = Array.prototype.slice.call(
+          document.querySelectorAll(".topbar__nav a[href^='#']"),
+        );
+        var sections = links.map(function (l) {
+          return document.querySelector(l.getAttribute("href"));
+        });
+        if ("IntersectionObserver" in window) {
+          var nio = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  var id = "#" + e.target.id;
+                  links.forEach(function (l) {
+                    l.classList.toggle("active", l.getAttribute("href") === id);
+                  });
+                }
+              });
+            },
+            { rootMargin: "-40% 0px -55% 0px" },
+          );
+          sections.forEach(function (s) {
+            if (s) nio.observe(s);
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
