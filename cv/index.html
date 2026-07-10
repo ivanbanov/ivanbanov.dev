@@ -929,6 +929,7 @@
           --shadow: none;
         }
         @page {
+          size: A4;
           margin: 12mm;
         }
         body {
@@ -1187,6 +1188,17 @@
           <a href="#speaking">Speaking</a>
         </nav>
         <div class="topbar__actions">
+          <a
+            class="iconbtn"
+            href="cv.pdf"
+            download="Ivan-Banov-CV.pdf"
+            title="Download PDF"
+            aria-label="Download PDF"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 3v12M8 11l4 4 4-4M5 20h14" />
+            </svg>
+          </a>
           <button class="iconbtn" id="print" title="Save as PDF" aria-label="Save as PDF">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
               <path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z" />
