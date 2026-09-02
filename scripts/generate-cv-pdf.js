@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 //
-// Regenerates cv/cv.pdf — the directly-downloadable CV — from cv/index.html.
-// Headless Chrome's --print-to-pdf renders through the page's @media print
-// styles, so the file is identical to a browser "Save as PDF".
+// Regenerates cv/Ivan-Banov-CV.pdf — the directly-downloadable CV — from
+// cv/index.html. Headless Chrome's --print-to-pdf renders through the page's
+// @media print styles, so the file is identical to a browser "Save as PDF".
 //
 // As a pre-commit step (no args): regenerates ONLY when cv/index.html is part
-// of the commit, then stages cv/cv.pdf so the download never drifts from the page.
+// of the commit, then stages the PDF so the download never drifts from the page.
 // Manual run: `node scripts/generate-cv-pdf.js --force` regenerates unconditionally.
 
 const { execSync, spawn, spawnSync } = require("node:child_process");
@@ -15,7 +15,7 @@ const path = require("node:path");
 
 const REPO_ROOT = execSync("git rev-parse --show-toplevel").toString().trim();
 const FORCE = process.argv.includes("--force");
-const OUT = path.join(REPO_ROOT, "cv", "cv.pdf");
+const OUT = path.join(REPO_ROOT, "cv", "Ivan-Banov-CV.pdf");
 const PORT = process.env.CV_PDF_PORT || "8799";
 const URL = `http://localhost:${PORT}/cv/`;
 
@@ -35,7 +35,7 @@ const CHROME = [
 ].find((p) => p && fs.existsSync(p));
 
 if (!CHROME) {
-  console.error("cv-pdf: no Chrome/Chromium found; cannot regenerate cv/cv.pdf");
+  console.error("cv-pdf: no Chrome/Chromium found; cannot regenerate cv/Ivan-Banov-CV.pdf");
   process.exit(1);
 }
 
@@ -55,7 +55,7 @@ const waitForServer = (retries = 40) =>
   });
 
 (async () => {
-  console.log("cv-pdf: regenerating cv/cv.pdf");
+  console.log("cv-pdf: regenerating cv/Ivan-Banov-CV.pdf");
 
   // Serve the repo so relative font/asset paths resolve. detached so we can
   // kill the whole process group (npx → node → http-server) on exit.
@@ -90,7 +90,7 @@ const waitForServer = (retries = 40) =>
 
     if (!FORCE) execSync(`git add ${JSON.stringify(OUT)}`, { cwd: REPO_ROOT });
 
-    console.log("cv-pdf: done → cv/cv.pdf");
+    console.log("cv-pdf: done → cv/Ivan-Banov-CV.pdf");
   } finally {
     cleanup();
   }
