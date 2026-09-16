@@ -4,7 +4,9 @@ import Base from "../layouts/Base.astro";
 import "../styles/cv.css";
 
 const entry = (await getEntry("pages", "cv"))!;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+// Top-level nav = the H2 sections of content/cv.md
+const sections = headings.filter((h) => h.depth === 2);
 
 const fonts = [
   "fraunces.woff2",
@@ -23,10 +25,7 @@ const fonts = [
   <header class="topbar">
     <div class="topbar__inner wrap">
       <nav class="topbar__nav">
-        <a href="#open-source">Open Source</a>
-        <a href="#experience">Experience</a>
-        <a href="#expertise">Expertise</a>
-        <a href="#speaking">Speaking</a>
+        {sections.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
       </nav>
       <div class="topbar__actions">
         <a class="iconbtn" href="/cv/Ivan-Banov-CV.pdf" download title="Download PDF" aria-label="Download PDF">
