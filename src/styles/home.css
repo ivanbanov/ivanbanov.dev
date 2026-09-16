@@ -12,6 +12,7 @@
   --link: #3a424c;
   --link-hover: #1b2129;
   --ring: rgba(27, 33, 41, 0.06);
+  --dot: rgba(27, 33, 41, 0.08);
 }
 
 html[data-theme="dark"] {
@@ -25,6 +26,7 @@ html[data-theme="dark"] {
   --link: #d3d9e0;
   --link-hover: #ffffff;
   --ring: rgba(231, 235, 240, 0.1);
+  --dot: rgba(231, 235, 240, 0.08);
 }
 
 /* No-JS fallback: follow the OS when nothing is stored */
@@ -40,6 +42,7 @@ html[data-theme="dark"] {
     --link: #d3d9e0;
     --link-hover: #ffffff;
     --ring: rgba(231, 235, 240, 0.1);
+    --dot: rgba(231, 235, 240, 0.08);
   }
 }
 
@@ -69,6 +72,39 @@ body {
   text-align: center;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s ease, color 0.25s ease;
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+}
+
+/* Staggered-dot pattern (28px tile) drifting toward bottom-right at ~10px/s.
+   Oversized and fixed so the drift never exposes an edge; the travel is a
+   whole number of tiles (10 × 28px) so the loop is seamless. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -320px;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(var(--dot) 1px, transparent 1.5px),
+    radial-gradient(var(--dot) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: 0 0, 14px 14px;
+  animation: drift 40s linear infinite;
+  will-change: transform;
+}
+
+@keyframes drift {
+  to {
+    transform: translate(280px, 280px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
 }
 
 main {
