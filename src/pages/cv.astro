@@ -18,17 +18,6 @@ const fonts = [
 <Base title={entry.data.title} description={entry.data.description} markdownHref="/cv.md">
   <Fragment slot="head">
     {fonts.map((f) => <link rel="preload" href={`/fonts/${f}`} as="font" type="font/woff2" crossorigin />)}
-    <script is:inline>
-      // Apply the saved/preferred theme before first paint to avoid a flash.
-      (function () {
-        var t = null;
-        try {
-          t = localStorage.getItem("cv-theme");
-        } catch (e) {}
-        if (!t && matchMedia("(prefers-color-scheme: dark)").matches) t = "dark";
-        if (t) document.documentElement.setAttribute("data-theme", t);
-      })();
-    </script>
   </Fragment>
 
   <header class="topbar">

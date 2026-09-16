@@ -1,17 +1,74 @@
+/* ============================================================
+   Tokens — cool, desaturated gray-blue in both schemes
+   ============================================================ */
+:root {
+  color-scheme: light;
+  --bg-top: #f6f7f9;
+  --bg-mid: #f0f2f5;
+  --bg-bottom: #e9ecf1;
+  --glow: rgba(255, 255, 255, 0.4);
+  --ink: #2b323b;
+  --ink-soft: #7a838e;
+  --link: #3a424c;
+  --link-hover: #1b2129;
+  --ring: rgba(27, 33, 41, 0.06);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-top: #0e1114;
+  --bg-mid: #12161b;
+  --bg-bottom: #181d24;
+  --glow: rgba(255, 255, 255, 0.035);
+  --ink: #e7ebf0;
+  --ink-soft: #8c96a3;
+  --link: #d3d9e0;
+  --link-hover: #ffffff;
+  --ring: rgba(231, 235, 240, 0.1);
+}
+
+/* No-JS fallback: follow the OS when nothing is stored */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg-top: #0e1114;
+    --bg-mid: #12161b;
+    --bg-bottom: #181d24;
+    --glow: rgba(255, 255, 255, 0.035);
+    --ink: #e7ebf0;
+    --ink-soft: #8c96a3;
+    --link: #d3d9e0;
+    --link-hover: #ffffff;
+    --ring: rgba(231, 235, 240, 0.1);
+  }
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  background-color: var(--bg-mid);
+}
+
 body {
   min-height: 100dvh;
   display: grid;
   place-items: center;
-  background: #111;
-  color: #eee;
+  background:
+    radial-gradient(120% 80% at 50% -10%, var(--glow) 0, transparent 60%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+  background-attachment: fixed;
+  color: var(--ink);
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   text-align: center;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 main {
@@ -24,6 +81,7 @@ img {
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 35px;
+  box-shadow: 0 0 0 1px var(--ring), 0 12px 40px -12px rgba(15, 20, 26, 0.22);
 }
 
 h1 {
@@ -33,7 +91,7 @@ h1 {
 
 p {
   margin-top: 0.5rem;
-  color: #999;
+  color: var(--ink-soft);
 }
 
 /* the avatar paragraph has no text colour to inherit */
@@ -50,12 +108,15 @@ ul {
 }
 
 a {
-  color: #eee;
+  color: var(--link);
   text-decoration: underline;
   text-underline-offset: 4px;
+  text-decoration-color: var(--ink-soft);
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
 a:hover {
-  color: #fff;
+  color: var(--link-hover);
+  text-decoration-color: currentColor;
   text-decoration-thickness: 2px;
 }

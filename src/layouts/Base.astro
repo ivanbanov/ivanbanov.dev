@@ -34,6 +34,17 @@ const ogImage = new URL("/profile.png", Astro.site);
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="text/markdown" href={markdownHref} />
+    <script is:inline>
+      // Apply the saved/preferred theme before first paint to avoid a flash.
+      (function () {
+        var t = null;
+        try {
+          t = localStorage.getItem("cv-theme");
+        } catch (e) {}
+        if (!t && matchMedia("(prefers-color-scheme: dark)").matches) t = "dark";
+        if (t) document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
     <slot name="head" />
   </head>
   <body>
