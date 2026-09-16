@@ -1,0 +1,19 @@
+---
+import { getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import "../styles/home.css";
+
+const entry = (await getEntry("pages", "index"))!;
+const { Content } = await render(entry);
+---
+
+<Base
+  title={entry.data.title}
+  description={entry.data.description}
+  markdownHref="/index.md"
+  colorScheme="dark"
+>
+  <main>
+    <Content />
+  </main>
+</Base>

@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 //
-// Regenerates cv/Ivan-Banov-CV.pdf — the directly-downloadable CV — from
-// cv/index.html. Headless Chrome's --print-to-pdf renders through the page's
-// @media print styles, so the file is identical to a browser "Save as PDF".
+// Regenerates public/cv/Ivan-Banov-CV.pdf — the directly-downloadable CV —
+// from the built site. Runs `astro build`, serves dist/, and prints /cv/ with
+// headless Chrome through the page's @media print styles, so the file is
+// identical to a browser "Save as PDF".
 //
-// As a pre-commit step (no args): regenerates ONLY when cv/index.html is part
-// of the commit, then stages the PDF so the download never drifts from the page.
-// Manual run: `node scripts/generate-cv-pdf.js --force` regenerates unconditionally.
+// As a pre-commit step (no args): regenerates ONLY when the CV source
+// (content/cv.md) or anything under src/ is part of the commit, then stages
+// the PDF so the download never drifts from the page.
+// Manual run: `npm run cv:pdf` (= `--force`) regenerates unconditionally.
 
 const { execSync, spawn, spawnSync } = require("node:child_process");
 const http = require("node:http");
@@ -15,16 +17,18 @@ const path = require("node:path");
 
 const REPO_ROOT = execSync("git rev-parse --show-toplevel").toString().trim();
 const FORCE = process.argv.includes("--force");
-const OUT = path.join(REPO_ROOT, "cv", "Ivan-Banov-CV.pdf");
+const OUT = path.join(REPO_ROOT, "public", "cv", "Ivan-Banov-CV.pdf");
+const DIST = path.join(REPO_ROOT, "dist");
 const PORT = process.env.CV_PDF_PORT || "8799";
 const URL = `http://localhost:${PORT}/cv/`;
 
-// Skip unless the CV page is staged in this commit.
+// Skip unless the CV source or the site code is staged in this commit.
 if (!FORCE) {
   const staged = execSync("git diff --cached --name-only", { cwd: REPO_ROOT })
     .toString()
     .split("\n");
-  if (!staged.includes("cv/index.html")) process.exit(0);
+  const touchesCv = staged.some((f) => f === "content/cv.md" || f.startsWith("src/"));
+  if (!touchesCv) process.exit(0);
 }
 
 // Locate a Chrome/Chromium binary.
@@ -35,7 +39,7 @@ const CHROME = [
 ].find((p) => p && fs.existsSync(p));
 
 if (!CHROME) {
-  console.error("cv-pdf: no Chrome/Chromium found; cannot regenerate cv/Ivan-Banov-CV.pdf");
+  console.error("cv-pdf: no Chrome/Chromium found; cannot regenerate the CV PDF");
   process.exit(1);
 }
 
@@ -55,15 +59,18 @@ const waitForServer = (retries = 40) =>
   });
 
 (async () => {
-  console.log("cv-pdf: regenerating cv/Ivan-Banov-CV.pdf");
+  console.log("cv-pdf: building site");
+  execSync("npx astro build", { cwd: REPO_ROOT, stdio: "inherit" });
 
-  // Serve the repo so relative font/asset paths resolve. detached so we can
-  // kill the whole process group (npx → node → http-server) on exit.
-  const server = spawn(
-    "npx",
-    ["-y", "http-server", REPO_ROOT, "-p", PORT, "-s", "-c-1"],
-    { cwd: REPO_ROOT, detached: true, stdio: "ignore" },
-  );
+  console.log("cv-pdf: regenerating public/cv/Ivan-Banov-CV.pdf");
+
+  // Serve the build output. detached so we can kill the whole process group
+  // (npx → node → http-server) on exit.
+  const server = spawn("npx", ["-y", "http-server", DIST, "-p", PORT, "-s", "-c-1"], {
+    cwd: REPO_ROOT,
+    detached: true,
+    stdio: "ignore",
+  });
 
   const cleanup = () => {
     try {
@@ -77,20 +84,14 @@ const waitForServer = (retries = 40) =>
 
     const res = spawnSync(
       CHROME,
-      [
-        "--headless=new",
-        "--disable-gpu",
-        "--no-pdf-header-footer",
-        `--print-to-pdf=${OUT}`,
-        URL,
-      ],
+      ["--headless=new", "--disable-gpu", "--no-pdf-header-footer", `--print-to-pdf=${OUT}`, URL],
       { stdio: "ignore" },
     );
     if (res.status !== 0) throw new Error("Chrome failed to render the PDF");
 
     if (!FORCE) execSync(`git add ${JSON.stringify(OUT)}`, { cwd: REPO_ROOT });
 
-    console.log("cv-pdf: done → cv/Ivan-Banov-CV.pdf");
+    console.log("cv-pdf: done → public/cv/Ivan-Banov-CV.pdf");
   } finally {
     cleanup();
   }

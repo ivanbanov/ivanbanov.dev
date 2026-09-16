@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  markdownHref: string;
+  colorScheme?: string;
+}
+const { title, description, markdownHref, colorScheme = "light dark" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content={colorScheme} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="text/markdown" href={markdownHref} />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+    <!-- Vercel Web Analytics -->
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>
