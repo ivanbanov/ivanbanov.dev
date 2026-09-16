@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "cv:pdf": "node scripts/generate-cv-pdf.cjs --force"
+    "cv:pdf": "node scripts/generate-cv-pdf.cjs --force",
+    "og": "node scripts/generate-og.cjs"
   },
   "devDependencies": {
     "@astrojs/markdown-satteri": "^0.4.1",

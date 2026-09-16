@@ -17,7 +17,7 @@ const fonts = [
 ];
 ---
 
-<Base title={entry.data.title} description={entry.data.description} markdownHref="/cv.md">
+<Base title={entry.data.title} description={entry.data.description} markdownHref="/cv.md" ogImage="/og/cv.png">
   <Fragment slot="head">
     {fonts.map((f) => <link rel="preload" href={`/fonts/${f}`} as="font" type="font/woff2" crossorigin />)}
   </Fragment>
