@@ -1,6 +1,6 @@
 ---
-title: "Ivan Banov"
-description: "Ivan Banov — Software Engineer focused on design systems and DX."
+title: "Ivan Banov — Software Engineer · Design Systems & DX"
+description: "Ivan Banov is a Berlin-based Software Engineer focused on design systems and developer experience. Tech Lead of the Design System at Miro and creator of dunky.dev."
 ---
 
 ![Ivan Banov](/profile.png)

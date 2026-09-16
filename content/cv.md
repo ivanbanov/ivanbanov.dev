@@ -1,6 +1,6 @@
 ---
-title: "Ivan Banov — Frontend Engineer"
-description: "Ivan Banov — Frontend Engineer. Design systems, UI architecture, and performance. 15+ years building the systems other engineers build on."
+title: "Ivan Banov CV — Frontend Engineer, Design Systems Lead"
+description: "CV of Ivan Banov, Frontend Engineer with 15+ years in design systems, UI architecture, and performance. Tech Lead of the Design System at Miro, based in Berlin."
 ---
 
 # Ivan Banov
