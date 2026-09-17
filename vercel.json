@@ -1,20 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
+      "src": "/",
       "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
-      "destination": "/index.md"
+      "dest": "/index.md"
     },
     {
-      "source": "/cv",
+      "src": "/([^/.]+)/?",
       "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
-      "destination": "/cv.md"
-    },
-    {
-      "source": "/cv/",
-      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
-      "destination": "/cv.md"
+      "dest": "/$1.md"
     }
   ],
   "headers": [
@@ -27,11 +22,11 @@
       "headers": [{ "key": "Vary", "value": "Accept" }]
     },
     {
-      "source": "/cv",
+      "source": "/:page",
       "headers": [{ "key": "Vary", "value": "Accept" }]
     },
     {
-      "source": "/cv/",
+      "source": "/:page/",
       "headers": [{ "key": "Vary", "value": "Accept" }]
     }
   ]
