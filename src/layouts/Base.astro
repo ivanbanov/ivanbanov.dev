@@ -37,14 +37,54 @@ const ogImage = new URL(ogPath, Astro.site);
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="text/markdown" href={markdownHref} />
     <script is:inline>
-      // Apply the saved/preferred theme before first paint to avoid a flash.
+      // Theme controller. Runs before first paint to avoid a flash.
+      //  - No saved choice → follow the OS, live (matchMedia "change").
+      //  - Saved choice ("light" | "dark") → wins on every page, tab, and
+      //    back/forward restore (pageshow + storage events).
       (function () {
-        var t = null;
-        try {
-          t = localStorage.getItem("cv-theme");
-        } catch (e) {}
-        if (!t && matchMedia("(prefers-color-scheme: dark)").matches) t = "dark";
-        if (t) document.documentElement.setAttribute("data-theme", t);
+        var KEY = "theme";
+        var root = document.documentElement;
+        var mq = matchMedia("(prefers-color-scheme: dark)");
+
+        function saved() {
+          try {
+            var t = localStorage.getItem(KEY);
+            if (!t) {
+              // migrate the old key
+              t = localStorage.getItem("cv-theme");
+              if (t) {
+                localStorage.setItem(KEY, t);
+                localStorage.removeItem("cv-theme");
+              }
+            }
+            return t === "light" || t === "dark" ? t : null;
+          } catch (e) {
+            return null;
+          }
+        }
+        function apply() {
+          root.setAttribute("data-theme", saved() || (mq.matches ? "dark" : "light"));
+        }
+        function set(t) {
+          try {
+            localStorage.setItem(KEY, t);
+          } catch (e) {}
+          apply();
+        }
+
+        apply();
+        mq.addEventListener("change", apply);
+        addEventListener("storage", function (e) {
+          if (e.key === KEY || e.key === null) apply();
+        });
+        addEventListener("pageshow", function (e) {
+          if (e.persisted) apply();
+        });
+        document.addEventListener("click", function (e) {
+          if (e.target.closest && e.target.closest("[data-theme-toggle]")) {
+            set(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+          }
+        });
       })();
     </script>
     <slot name="head" />

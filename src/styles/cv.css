@@ -194,18 +194,6 @@ a {
   color: var(--accent);
 }
 
-.iconbtn .sun {
-  display: none;
-}
-
-html[data-theme="dark"] .iconbtn .sun {
-  display: block;
-}
-
-html[data-theme="dark"] .iconbtn .moon {
-  display: none;
-}
-
 @media (max-width: 680px) {
   .topbar__nav {
     display: none;
