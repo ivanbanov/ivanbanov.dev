@@ -488,6 +488,11 @@ a {
   .prose ul:not(h2 ~ *) li:has(a[href$=".pdf"]) {
     display: none;
   }
+  /* closing call-to-action and signature: web only */
+  .prose hr,
+  .prose hr ~ * {
+    display: none;
+  }
 
   .prose h2 {
     margin-top: 22pt;
@@ -537,15 +542,4 @@ a {
     color: var(--ink);
   }
 
-  .prose hr {
-    margin-top: 20pt;
-  }
-  .prose hr + p {
-    margin-top: 12pt;
-    font-size: 13pt;
-  }
-  .prose hr + p + p {
-    margin-top: 6pt;
-    font-size: 7.4pt;
-  }
 }
