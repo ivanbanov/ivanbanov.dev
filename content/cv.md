@@ -31,7 +31,9 @@ Links: [Dunky: The Journey](https://dunky.dev/blog/dunky-the-journey) · [dunky.
 
 ## Experience
 
-### Tech Lead — Design System · Miro, Design System Team
+### Tech Lead — Design System
+
+**Miro** · Design System Team
 
 *Oct 2021 — Present · Berlin*
 
@@ -48,7 +50,9 @@ I lead the architecture and evolution of Miro's design system, the shared UI fou
 - **Footprint reduction & governance.** Researched and identified an ~83% reduction opportunity in Miro's CSS bundle size — formed and led a cross-team initiative to close that gap, handing the design system full styling control over the app, enforced with CSS handlers that block ad-hoc overrides of components and keep the UI consistent everywhere.
 - **Automation.** Built visual-regression automation to catch UI drift before release, and automated the icon pipeline end-to-end from Figma to code.
 
-### Staff Software Engineer · Cobalt.io, Frontend Chapter Lead
+### Staff Software Engineer
+
+**Cobalt.io** · Frontend Chapter Lead
 
 *Aug 2019 — Oct 2021 · Berlin*
 
@@ -59,7 +63,9 @@ Led the frontend chapter across four teams, setting technical direction from dat
 - **Visual-regression testing.** Introduced a Jest + Puppeteer pipeline for automated UI validation, cutting regressions reaching production.
 - **Design-system-driven PDF.** Architected a PDF-generation service via API that reused the design system, keeping print and web visually coherent from a single source.
 
-### Senior Software Engineer · Sauce Labs
+### Senior Software Engineer
+
+**Sauce Labs**
 
 *Jan 2019 — Jul 2019 · Berlin*
 
@@ -69,7 +75,9 @@ Owned the frontend integration between Sauce Labs' real-device cloud and the tes
 - **Integration architecture.** Drove frontend optimizations that smoothed the integration between devices and testing environments.
 - **SDK automation & state layer.** Designed an SDK-automation process from Swagger definitions and built the state layer that synchronized microservice data with the frontend — streamlining API consumption and maintainability.
 
-### Senior Frontend Engineer · Getsurance
+### Senior Frontend Engineer
+
+**Getsurance**
 
 *Jun 2017 — Dec 2018 · Berlin*
 
