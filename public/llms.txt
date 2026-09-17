@@ -1,0 +1,15 @@
+# Ivan Banov
+
+> Software Engineer focused on design systems, UI architecture, and developer experience. Tech Lead of the Design System at Miro, based in Berlin. Personal site and CV.
+
+Every page is also available as plain markdown: append `.md` to the path, or request the page with `Accept: text/markdown`.
+
+## Pages
+
+- [Home](https://ivanbanov.dev/index.md): short intro and links
+- [CV](https://ivanbanov.dev/cv.md): full CV, experience, expertise, speaking
+
+## Optional
+
+- [CV as PDF](https://ivanbanov.dev/cv/Ivan-Banov-CV.pdf)
+- [Open source: dunky.dev](https://dunky.dev)

@@ -3,6 +3,22 @@
   "routes": [
     {
       "src": "/",
+      "headers": {
+        "Vary": "Accept",
+        "Link": "</index.md>; rel=\"alternate\"; type=\"text/markdown\", </llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/([^/.]+)/?",
+      "headers": {
+        "Vary": "Accept",
+        "Link": "</$1.md>; rel=\"alternate\"; type=\"text/markdown\", </llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/",
       "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
       "dest": "/index.md"
     },
@@ -18,16 +34,8 @@
       "headers": [{ "key": "Content-Type", "value": "text/markdown; charset=utf-8" }]
     },
     {
-      "source": "/",
-      "headers": [{ "key": "Vary", "value": "Accept" }]
-    },
-    {
-      "source": "/:page",
-      "headers": [{ "key": "Vary", "value": "Accept" }]
-    },
-    {
-      "source": "/:page/",
-      "headers": [{ "key": "Vary", "value": "Accept" }]
+      "source": "/llms.txt",
+      "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }]
     }
   ]
 }
