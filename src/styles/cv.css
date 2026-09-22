@@ -169,6 +169,7 @@ a {
 .topbar__actions {
   display: flex;
   gap: 8px;
+  margin-left: auto; /* stays right-aligned when the nav is hidden on mobile */
 }
 
 .iconbtn {
@@ -194,9 +195,58 @@ a {
   color: var(--accent);
 }
 
+/* hamburger: mobile only */
+.topbar__menu {
+  display: none;
+}
+
+.topbar__menu .cross {
+  display: none;
+}
+
+.topbar.is-open .topbar__menu .bars {
+  display: none;
+}
+
+.topbar.is-open .topbar__menu .cross {
+  display: block;
+}
+
 @media (max-width: 680px) {
+  .topbar__inner {
+    position: relative;
+  }
+
+  .topbar__menu {
+    display: grid;
+  }
+
+  /* nav becomes a dropdown under the bar */
   .topbar__nav {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 16px 32px -20px rgba(0, 0, 0, 0.35);
+  }
+
+  .topbar.is-open .topbar__nav {
+    display: flex;
+  }
+
+  .topbar__nav a {
+    padding: 12px 28px;
+    color: var(--ink);
+  }
+
+  .topbar__nav a:hover {
+    color: var(--accent);
   }
 }
 
@@ -209,10 +259,21 @@ a {
   position: relative;
   z-index: 1;
   padding: 88px 28px 120px;
-  counter-reset: sec -1;
+  counter-reset: sec;
 }
 
 /* --- hero --- */
+/* eyebrow line right before the name — "Brazilian · Based in Berlin, Germany".
+   Reuses the p.meta styling the markdown plugin applies to any lone-em
+   paragraph (see astro.config.mjs), so it reads like the job date/location
+   lines below. */
+.prose p.meta:has(+ h1) {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 11px;
+  color: var(--accent);
+}
+
 .prose h1 {
   font-family: var(--font-display);
   font-size: clamp(48px, 8vw, 84px);
@@ -280,6 +341,11 @@ a {
 }
 
 /* --- sections --- */
+/* anchor targets land below the sticky topbar (56px) with some breathing room */
+.prose :is(h1, h2, h3, h4)[id] {
+  scroll-margin-top: 80px;
+}
+
 .prose h2 {
   counter-increment: sec;
   display: flex;
@@ -311,6 +377,70 @@ a {
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.01em;
+}
+
+/* "Earlier" disclosure toggle — expands every job below it in one panel.
+   Structure is built by the script in cv.astro. */
+.prose h3.earlier-toggle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.prose h3.earlier-toggle:hover {
+  color: var(--accent);
+}
+
+.prose h3.earlier-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.prose h3.earlier-toggle::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-bottom: 4px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.3s var(--ease);
+  flex-shrink: 0;
+}
+
+.prose h3.earlier-toggle[aria-expanded="true"]::after {
+  transform: rotate(225deg);
+  margin-bottom: 0;
+}
+
+/* heading + intro paragraph form one card-like trigger */
+.earlier-trigger {
+  margin: 60px -20px 0;
+  padding: 16px 20px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease);
+}
+
+.earlier-trigger:hover {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.earlier-trigger:hover .earlier-toggle {
+  color: var(--accent);
+}
+
+.prose .earlier-trigger h3 {
+  margin-top: 0;
+}
+
+.earlier-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s var(--ease);
 }
 
 .prose h4 {
@@ -349,7 +479,10 @@ a {
   font-style: normal;
 }
 
-.prose h2 ~ p {
+/* :where(h2 ~ p, .earlier-panel p, .earlier-trigger p) — the .earlier-panel case covers the
+   same elements once the "Earlier" script (in cv.astro) moves them off
+   being direct siblings of h2 and into that wrapper. */
+.prose :where(h2 ~ p, .earlier-panel p, .earlier-trigger p) {
   margin-top: 18px;
   color: var(--ink-soft);
 }
@@ -360,23 +493,23 @@ a {
   color: var(--ink);
 }
 
-.prose h2 ~ p em {
+.prose :where(h2 ~ p, .earlier-panel p, .earlier-trigger p) em {
   font-style: italic;
 }
 
-.prose h2 ~ ul {
+.prose :where(h2 ~ ul, .earlier-panel ul) {
   list-style: none;
   margin-top: 18px;
 }
 
-.prose h2 ~ ul li {
+.prose :where(h2 ~ ul, .earlier-panel ul) li {
   position: relative;
   padding-left: 24px;
   margin-top: 10px;
   color: var(--ink-soft);
 }
 
-.prose h2 ~ ul li::before {
+.prose :where(h2 ~ ul, .earlier-panel ul) li::before {
   content: "";
   position: absolute;
   left: 0;
@@ -391,7 +524,7 @@ a {
   font-weight: 600;
 }
 
-.prose h2 ~ :is(p, ul) a {
+.prose :where(h2 ~ :is(p, ul), .earlier-panel :is(p, ul), .earlier-trigger p) a {
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -399,7 +532,7 @@ a {
   transition: color 0.25s var(--ease);
 }
 
-.prose h2 ~ :is(p, ul) a:hover {
+.prose :where(h2 ~ :is(p, ul), .earlier-panel :is(p, ul), .earlier-trigger p) a:hover {
   color: var(--accent-2);
   text-decoration-color: currentColor;
 }
@@ -471,6 +604,12 @@ a {
     padding: 0;
   }
 
+  .prose p.meta:has(+ h1) {
+    margin-top: 0;
+    margin-bottom: 4pt;
+    font-size: 6.8pt;
+    color: var(--accent);
+  }
   .prose h1 {
     font-size: 23pt;
     margin-bottom: 8px;
@@ -522,6 +661,20 @@ a {
     font-size: 12pt;
     break-after: avoid;
   }
+  /* the PDF keeps only the "Earlier" summary paragraph, not the job list */
+  .prose h3.earlier-toggle::after {
+    display: none;
+  }
+  .earlier-panel {
+    display: none;
+  }
+  .earlier-trigger {
+    margin: 0;
+    padding: 0;
+  }
+  .prose .earlier-trigger h3 {
+    margin-top: 16pt;
+  }
   .prose h4 {
     margin-top: 10pt;
     font-size: 10pt;
@@ -537,26 +690,26 @@ a {
     font-size: 7.4pt;
     break-after: avoid;
   }
-  .prose h2 ~ p {
+  .prose :where(h2 ~ p, .earlier-panel p, .earlier-trigger p) {
     margin-top: 6pt;
   }
   .prose p.meta + p {
     font-size: 9.4pt;
     break-inside: avoid;
   }
-  .prose h2 ~ ul {
+  .prose :where(h2 ~ ul, .earlier-panel ul) {
     margin-top: 5pt;
   }
-  .prose h2 ~ ul li {
+  .prose :where(h2 ~ ul, .earlier-panel ul) li {
     margin-top: 3pt;
     padding-left: 14px;
     break-inside: avoid;
   }
-  .prose h2 ~ ul li::before {
+  .prose :where(h2 ~ ul, .earlier-panel ul) li::before {
     width: 6px;
     top: 0.7em;
   }
-  .prose h2 ~ :is(p, ul) a {
+  .prose :where(h2 ~ :is(p, ul), .earlier-panel :is(p, ul), .earlier-trigger p) a {
     text-decoration: none;
     color: var(--ink);
   }

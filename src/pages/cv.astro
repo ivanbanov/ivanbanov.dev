@@ -25,7 +25,23 @@ const fonts = [
 
   <header class="topbar">
     <div class="topbar__inner wrap">
-      <nav class="topbar__nav">
+      <button
+        class="iconbtn topbar__menu"
+        id="menu"
+        type="button"
+        title="Menu"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="nav"
+      >
+        <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+        <svg class="cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+      <nav class="topbar__nav" id="nav">
         {sections.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
       </nav>
       <div class="topbar__actions">
@@ -50,5 +66,82 @@ const fonts = [
 
   <script>
     document.getElementById("print")!.addEventListener("click", () => window.print());
+
+    // Mobile hamburger: toggles the section nav as a dropdown.
+    const topbar = document.querySelector<HTMLElement>(".topbar")!;
+    const menu = document.getElementById("menu")!;
+    const nav = document.getElementById("nav")!;
+    const setMenu = (open: boolean) => {
+      topbar.classList.toggle("is-open", open);
+      menu.setAttribute("aria-expanded", String(open));
+    };
+    menu.addEventListener("click", () => setMenu(!topbar.classList.contains("is-open")));
+    nav.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) setMenu(false);
+    });
+    document.addEventListener("click", (e) => {
+      if (!topbar.contains(e.target as Node)) setMenu(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setMenu(false);
+    });
+  </script>
+
+  <script>
+    // Collapse the "Earlier" career history behind a single disclosure:
+    // one click reveals every job under it. Progressive enhancement — with
+    // JS disabled the jobs just show, uncollapsed.
+    (function () {
+      const heading = [...document.querySelectorAll<HTMLElement>(".prose h3")].find(
+        (h) => h.textContent?.trim() === "Earlier",
+      );
+      if (!heading) return;
+
+      // The intro paragraph(s) stay visible as part of the trigger; only the
+      // job entries (from the first H4 on) go into the collapsible panel.
+      const intro: Element[] = [];
+      const body: Element[] = [];
+      for (let el = heading.nextElementSibling; el && !/^H[23]$/.test(el.tagName); el = el.nextElementSibling) {
+        (body.length || el.tagName === "H4" ? body : intro).push(el);
+      }
+      if (!body.length) return;
+
+      const panel = document.createElement("div");
+      panel.className = "earlier-panel";
+      body.forEach((el) => panel.appendChild(el));
+      (intro.at(-1) ?? heading).after(panel);
+
+      // Heading + intro become one card-like trigger.
+      const trigger = document.createElement("div");
+      trigger.className = "earlier-trigger";
+      heading.before(trigger);
+      trigger.append(heading, ...intro);
+      intro.forEach((el) => el.addEventListener("click", () => heading.click()));
+
+      heading.classList.add("earlier-toggle");
+      heading.setAttribute("role", "button");
+      heading.setAttribute("tabindex", "0");
+      heading.setAttribute("aria-expanded", "false");
+      panel.setAttribute("aria-hidden", "true");
+      panel.style.maxHeight = "0px";
+
+      const setOpen = (open: boolean) => {
+        heading.setAttribute("aria-expanded", String(open));
+        panel.setAttribute("aria-hidden", String(!open));
+        panel.style.maxHeight = open ? `${panel.scrollHeight}px` : "0px";
+      };
+
+      heading.addEventListener("click", () => setOpen(heading.getAttribute("aria-expanded") !== "true"));
+      heading.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        e.preventDefault();
+        setOpen(heading.getAttribute("aria-expanded") !== "true");
+      });
+
+      // Keep an open panel from clipping if content reflows (resize, fonts).
+      addEventListener("resize", () => {
+        if (heading.getAttribute("aria-expanded") === "true") panel.style.maxHeight = `${panel.scrollHeight}px`;
+      });
+    })();
   </script>
 </Base>

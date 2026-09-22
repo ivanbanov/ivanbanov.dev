@@ -3,31 +3,19 @@ title: "Ivan Banov CV — Frontend Engineer, Design Systems Lead"
 description: "CV of Ivan Banov, Frontend Engineer with 15+ years in design systems, UI architecture, and performance. Tech Lead of the Design System at Miro, based in Berlin."
 ---
 
+_Brazilian · Based in Berlin, Germany_
+
 # Ivan Banov
 
 **Frontend Engineer** — Design Systems & UI Architecture
 
-Brazilian · Based in Berlin, Germany · TypeScript · Style Engines · DX Tooling · Performance · A11y · Technical Leadership
+TypeScript · Style Engines · DX Tooling · Performance · A11y · Technical Leadership
 
-I build the systems other engineers build on. Over *15+ years* I've turned fragmented UI into coherent, high-performance design systems and frontend platforms, working where design intent, render, and developer experience meet.
+I build the systems other engineers build on. Over _15+ years_ I've turned fragmented UI into coherent, high-performance design systems and frontend platforms, working where design intent, render, and developer experience meet.
 
 - [hi@ivanbanov.dev](mailto:hi@ivanbanov.dev)
 - [linkedin.com/in/ivanbanov](https://linkedin.com/in/ivanbanov/)
 - [Download PDF](/cv/Ivan-Banov-CV.pdf)
-
-## Open Source
-
-### dunky.dev 🫏 — DX tools that unlock powerful UIs
-
-*2026 — Present · Open source*
-
-A framework-agnostic foundation for design systems that solves the *wiring problem*: behavior and styles scattered across framework-specific code, forcing costly rewrites per platform.
-
-- **State Machine.** Framework-agnostic behavior, described once. *Available.*
-- **Style Engine.** Portable style schemas, resolved for performance. *Coming soon.*
-- **Components.** Agnostic render layer over behavior and styles. *Coming soon.*
-
-Links: [Dunky: The Journey](https://dunky.dev/blog/dunky-the-journey) · [dunky.dev](https://dunky.dev) · [GitHub](https://github.com/dunky-dev)
 
 ## Experience
 
@@ -35,7 +23,7 @@ Links: [Dunky: The Journey](https://dunky.dev/blog/dunky-the-journey) · [dunky.
 
 **Miro** · Design System Team
 
-*Oct 2021 — Present · Berlin*
+_Oct 2021 — Present · Berlin_
 
 I lead the architecture and evolution of Miro's design system, the shared UI foundation powering web, native and canvas.
 
@@ -54,7 +42,7 @@ I lead the architecture and evolution of Miro's design system, the shared UI fou
 
 **Cobalt.io** · Frontend Chapter Lead
 
-*Aug 2019 — Oct 2021 · Berlin*
+_Aug 2019 — Oct 2021 · Berlin_
 
 Led the frontend chapter across four teams, setting technical direction from data fetching through to UI rendering for Cobalt's pentest-as-a-service platform.
 
@@ -67,7 +55,7 @@ Led the frontend chapter across four teams, setting technical direction from dat
 
 **Sauce Labs**
 
-*Jan 2019 — Jul 2019 · Berlin*
+_Jan 2019 — Jul 2019 · Berlin_
 
 Owned the frontend integration between Sauce Labs' real-device cloud and the testing services from the acquired TestObject.
 
@@ -79,9 +67,9 @@ Owned the frontend integration between Sauce Labs' real-device cloud and the tes
 
 **Getsurance**
 
-*Jun 2017 — Dec 2018 · Berlin*
+_Jun 2017 — Dec 2018 · Berlin_
 
-Built Getsurance's frontend from the ground up in *Elm* — a type-safe, crash-free foundation for a regulated insurance product — and the automation around it.
+Built Getsurance's frontend from the ground up in _Elm_ — a type-safe, crash-free foundation for a regulated insurance product — and the automation around it.
 
 - **Component library from scratch.** Created a fully reusable UI component system that let the team ship new features with minimal effort.
 - **Email infrastructure.** Developed a responsive transactional-email system (Inky & Panini) for consistent branding across communications.
@@ -120,6 +108,20 @@ Across Loggi, Creditas, Dafiti, UOL, and Think4 (2010–2017, São Paulo → Ber
 - Built store-within-a-store pages for clients like Nike and Red Bull.
 - Partnered closely with designers to validate layouts before development.
 
+## Open Source
+
+### dunky.dev 🫏 — DX tools that unlock powerful UIs
+
+_2026 — Present · Open source_
+
+A framework-agnostic foundation for design systems that solves the _wiring problem_: behavior and styles scattered across framework-specific code, forcing costly rewrites per platform.
+
+- **State Machine.** Framework-agnostic behavior, described once. _Available._
+- **Style Engine.** Portable style schemas, resolved for performance. _Coming soon._
+- **Components.** Agnostic render layer over behavior and styles. _Coming soon._
+
+Links: [Dunky: The Journey](https://dunky.dev/blog/dunky-the-journey) · [dunky.dev](https://dunky.dev) · [GitHub](https://github.com/dunky-dev)
+
 ## Expertise
 
 - **Architecture & Leadership:** Design systems · Frontend architecture · Technical leadership · Cross-team alignment · Platform migrations · API & contract design
@@ -144,6 +146,5 @@ Across Loggi, Creditas, Dafiti, UOL, and Think4 (2010–2017, São Paulo → Ber
 
 ---
 
-Let's build the **foundation** your product ships on. Get in touch: hi@ivanbanov.dev
-
-Ivan Banov · Berlin · hi@ivanbanov.dev
+Let's build **together**. Get in touch!
+hi@ivanbanov.dev
